@@ -8,7 +8,9 @@ import {
 
 @Injectable()
 export class ListOrganizationsUseCase {
-  constructor(private readonly organizationRepository: OrganizationRepository) {}
+  constructor(
+    private readonly organizationRepository: OrganizationRepository,
+  ) {}
 
   async execute(params?: FindAllParams): Promise<FindAllResult> {
     return this.organizationRepository.findAll(params);

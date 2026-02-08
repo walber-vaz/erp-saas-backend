@@ -37,7 +37,9 @@ export class InMemoryOrganizationRepository extends OrganizationRepository {
   }
 
   async update(organization: Organization): Promise<Organization> {
-    const index = this.organizations.findIndex((org) => org.id === organization.id);
+    const index = this.organizations.findIndex(
+      (org) => org.id === organization.id,
+    );
     if (index >= 0) {
       this.organizations[index] = organization;
     }

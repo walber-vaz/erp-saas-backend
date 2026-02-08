@@ -7,7 +7,9 @@ import { CreateOrganizationDto } from '../dtos/create-organization.dto';
 
 @Injectable()
 export class CreateOrganizationUseCase {
-  constructor(private readonly organizationRepository: OrganizationRepository) {}
+  constructor(
+    private readonly organizationRepository: OrganizationRepository,
+  ) {}
 
   async execute(dto: CreateOrganizationDto): Promise<Organization> {
     const existingSlug = await this.organizationRepository.findBySlug(dto.slug);
@@ -16,7 +18,9 @@ export class CreateOrganizationUseCase {
     }
 
     if (dto.document) {
-      const existingDocument = await this.organizationRepository.findByDocument(dto.document);
+      const existingDocument = await this.organizationRepository.findByDocument(
+        dto.document,
+      );
       if (existingDocument) {
         throw new DomainException(OrganizationErrorMessages.DOCUMENT_TAKEN);
       }

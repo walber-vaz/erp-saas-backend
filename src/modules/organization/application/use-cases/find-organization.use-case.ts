@@ -6,7 +6,9 @@ import { OrganizationRepository } from '../../domain/repositories/organization.r
 
 @Injectable()
 export class FindOrganizationUseCase {
-  constructor(private readonly organizationRepository: OrganizationRepository) {}
+  constructor(
+    private readonly organizationRepository: OrganizationRepository,
+  ) {}
 
   async execute(id: string): Promise<Organization> {
     const organization = await this.organizationRepository.findById(id);

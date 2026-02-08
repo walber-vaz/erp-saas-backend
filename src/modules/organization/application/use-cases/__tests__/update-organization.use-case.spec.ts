@@ -56,9 +56,9 @@ describe('UpdateOrganizationUseCase', () => {
   it('deve lançar exceção quando organização não encontrada', async () => {
     mockRepository.findById.mockResolvedValue(null);
 
-    await expect(useCase.execute('invalid-id', { name: 'Teste' })).rejects.toThrow(
-      new DomainException(OrganizationErrorMessages.NOT_FOUND),
-    );
+    await expect(
+      useCase.execute('invalid-id', { name: 'Teste' }),
+    ).rejects.toThrow(new DomainException(OrganizationErrorMessages.NOT_FOUND));
   });
 
   it('deve lançar exceção quando novo slug já existe', async () => {
@@ -67,7 +67,9 @@ describe('UpdateOrganizationUseCase', () => {
     mockRepository.findById.mockResolvedValue(org);
     mockRepository.findBySlug.mockResolvedValue(other);
 
-    await expect(useCase.execute(org.id, { slug: 'outro-slug' })).rejects.toThrow(
+    await expect(
+      useCase.execute(org.id, { slug: 'outro-slug' }),
+    ).rejects.toThrow(
       new DomainException(OrganizationErrorMessages.SLUG_TAKEN),
     );
   });
@@ -80,7 +82,9 @@ describe('UpdateOrganizationUseCase', () => {
 
     await expect(
       useCase.execute(org.id, { document: '11222333000181' }),
-    ).rejects.toThrow(new DomainException(OrganizationErrorMessages.DOCUMENT_TAKEN));
+    ).rejects.toThrow(
+      new DomainException(OrganizationErrorMessages.DOCUMENT_TAKEN),
+    );
   });
 
   it('não deve validar unicidade de slug quando não alterado', async () => {

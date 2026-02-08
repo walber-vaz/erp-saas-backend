@@ -74,7 +74,9 @@ export class Organization {
   }
 
   update(
-    props: Partial<Pick<OrganizationProps, 'name' | 'slug' | 'document' | 'isActive'>>,
+    props: Partial<
+      Pick<OrganizationProps, 'name' | 'slug' | 'document' | 'isActive'>
+    >,
   ): void {
     if (props.name !== undefined) {
       Organization.validateName(props.name);

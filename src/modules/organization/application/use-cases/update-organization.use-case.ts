@@ -7,7 +7,9 @@ import { UpdateOrganizationDto } from '../dtos/update-organization.dto';
 
 @Injectable()
 export class UpdateOrganizationUseCase {
-  constructor(private readonly organizationRepository: OrganizationRepository) {}
+  constructor(
+    private readonly organizationRepository: OrganizationRepository,
+  ) {}
 
   async execute(id: string, dto: UpdateOrganizationDto): Promise<Organization> {
     const organization = await this.organizationRepository.findById(id);
@@ -16,14 +18,18 @@ export class UpdateOrganizationUseCase {
     }
 
     if (dto.slug && dto.slug !== organization.slug) {
-      const existingSlug = await this.organizationRepository.findBySlug(dto.slug);
+      const existingSlug = await this.organizationRepository.findBySlug(
+        dto.slug,
+      );
       if (existingSlug) {
         throw new DomainException(OrganizationErrorMessages.SLUG_TAKEN);
       }
     }
 
     if (dto.document && dto.document !== organization.document) {
-      const existingDocument = await this.organizationRepository.findByDocument(dto.document);
+      const existingDocument = await this.organizationRepository.findByDocument(
+        dto.document,
+      );
       if (existingDocument) {
         throw new DomainException(OrganizationErrorMessages.DOCUMENT_TAKEN);
       }

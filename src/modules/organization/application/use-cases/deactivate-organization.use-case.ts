@@ -5,7 +5,9 @@ import { OrganizationRepository } from '../../domain/repositories/organization.r
 
 @Injectable()
 export class DeactivateOrganizationUseCase {
-  constructor(private readonly organizationRepository: OrganizationRepository) {}
+  constructor(
+    private readonly organizationRepository: OrganizationRepository,
+  ) {}
 
   async execute(id: string): Promise<void> {
     const organization = await this.organizationRepository.findById(id);
