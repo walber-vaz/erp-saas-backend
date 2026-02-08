@@ -15,9 +15,15 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
-      "@shared/*": ["src/shared/*"],
-      "@modules/*": ["src/modules/*"],
-      "@generated/*": ["src/generated/*"]
+      "@shared/*": [
+        "src/shared/*"
+      ],
+      "@modules/*": [
+        "src/modules/*"
+      ],
+      "@generated/*": [
+        "src/generated/*"
+      ]
     },
     "incremental": true,
     "skipLibCheck": true,

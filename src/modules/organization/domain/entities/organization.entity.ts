@@ -108,6 +108,18 @@ export class Organization {
     this._updatedAt = new Date();
   }
 
+  toJSON() {
+    return {
+      id: this.id,
+      name: this._name,
+      slug: this._slug,
+      document: this._document,
+      isActive: this._isActive,
+      createdAt: this.createdAt,
+      updatedAt: this._updatedAt,
+    };
+  }
+
   private static validateName(name: string): void {
     if (!name || name.trim().length < 2) {
       throw new DomainException(OrganizationErrorMessages.NAME_MIN_LENGTH);

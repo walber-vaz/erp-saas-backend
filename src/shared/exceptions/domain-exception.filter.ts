@@ -7,7 +7,7 @@ import {
 import { Response } from 'express';
 import { DomainException } from './domain.exception';
 
-const NOT_FOUND_KEYWORDS = ['não encontrado'];
+const NOT_FOUND_KEYWORDS = ['não encontrad'];
 
 @Catch(DomainException)
 export class DomainExceptionFilter implements ExceptionFilter {

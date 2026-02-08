@@ -162,7 +162,7 @@ src/
 
 ### TASK-009: Criar testes unitários
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Testar entidade `Organization` (validações, métodos)
   - Testar cada use case com repositório mockado
@@ -180,7 +180,7 @@ src/
 
 ### TASK-010: Criar testes e2e do controller
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Criar testes e2e para os endpoints de Organization
   - Testar fluxo completo: criar → listar → buscar → atualizar → desativar
