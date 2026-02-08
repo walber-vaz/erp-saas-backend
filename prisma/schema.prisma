@@ -1,9 +1,198 @@
 generator client {
-  provider     = "prisma-client"
-  output       = "../src/generated/prisma"
-  moduleFormat = "cjs"
+  provider        = "prisma-client"
+  output          = "../src/generated/prisma"
+  moduleFormat    = "cjs"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
-  provider = "postgresql"
+  provider   = "postgresql"
+  extensions = [pgcrypto]
+}
+
+// ── Organization (Tenant) ──────────────────
+
+model Organization {
+  id        String   @id @default(dbgenerated("uuidv7()")) @db.Uuid
+  name      String
+  slug      String   @unique
+  document  String?  @unique // CNPJ
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users   User[]
+  roles   Role[]
+  modules OrganizationModule[]
+
+  @@map("organizations")
+}
+
+// ── User ───────────────────────────────────
+
+model User {
+  id             String    @id @default(dbgenerated("uuidv7()")) @db.Uuid
+  organizationId String    @db.Uuid
+  name           String
+  email          String
+  passwordHash   String
+  isActive       Boolean   @default(true)
+  lastLoginAt    DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  organization  Organization   @relation(fields: [organizationId], references: [id])
+  roles         UserRole[]     @relation("UserRoles")
+  assignedRoles UserRole[]     @relation("AssignedByUser")
+  refreshTokens RefreshToken[]
+
+  @@unique([organizationId, email])
+  @@index([organizationId])
+  @@map("users")
+}
+
+// ── Refresh Token (JWT) ────────────────────
+
+model RefreshToken {
+  id        String   @id @default(dbgenerated("uuidv7()")) @db.Uuid
+  userId    String   @db.Uuid
+  token     String   @unique
+  family    String   @db.Uuid // agrupa tokens da mesma sessão (rotation)
+  isRevoked Boolean  @default(false)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([family])
+  @@index([expiresAt])
+  @@map("refresh_tokens")
+}
+
+// ── Module ─────────────────────────────────
+
+model Module {
+  id          String   @id @default(dbgenerated("uuidv7()")) @db.Uuid
+  code        String   @unique // FINANCE, INVENTORY, HR, SALES, etc.
+  name        String
+  description String?
+  icon        String?
+  isActive    Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  permissions   Permission[]
+  organizations OrganizationModule[]
+
+  @@map("modules")
+}
+
+// ── Organization <-> Module (Subscription) ─
+
+model OrganizationModule {
+  id             String    @id @default(dbgenerated("uuidv7()")) @db.Uuid
+  organizationId String    @db.Uuid
+  moduleId       String    @db.Uuid
+  isActive       Boolean   @default(true)
+  activatedAt    DateTime  @default(now())
+  deactivatedAt  DateTime?
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+  module       Module       @relation(fields: [moduleId], references: [id])
+
+  @@unique([organizationId, moduleId])
+  @@map("organization_modules")
+}
+
+// ── Permission ─────────────────────────────
+
+model Permission {
+  id          String   @id @default(dbgenerated("uuidv7()")) @db.Uuid
+  moduleId    String   @db.Uuid
+  code        String   @unique // MODULE_RESOURCE_ACTION: FINANCE_INVOICE_CREATE
+  resource    String
+  action      String
+  description String?
+  createdAt   DateTime @default(now())
+
+  module Module           @relation(fields: [moduleId], references: [id])
+  roles  RolePermission[]
+
+  @@index([moduleId])
+  @@index([resource, action])
+  @@map("permissions")
+}
+
+// ── Role ───────────────────────────────────
+
+model Role {
+  id             String   @id @default(dbgenerated("uuidv7()")) @db.Uuid
+  organizationId String?  @db.Uuid // null = system-wide role
+  name           String
+  code           String
+  description    String?
+  isSystem       Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization?     @relation(fields: [organizationId], references: [id])
+  permissions  RolePermission[]
+  users        UserRole[]
+  parentOf     RoleInheritance[] @relation("ParentRole")
+  childOf      RoleInheritance[] @relation("ChildRole")
+
+  @@unique([organizationId, code])
+  @@index([organizationId])
+  @@map("roles")
+}
+
+// ── Role <-> Permission ────────────────────
+
+model RolePermission {
+  id           String   @id @default(dbgenerated("uuidv7()")) @db.Uuid
+  roleId       String   @db.Uuid
+  permissionId String   @db.Uuid
+  conditions   Json? // {"ownOnly": true}, {"maxAmount": 10000}
+  createdAt    DateTime @default(now())
+
+  role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@unique([roleId, permissionId])
+  @@map("role_permissions")
+}
+
+// ── User <-> Role ──────────────────────────
+
+model UserRole {
+  id         String    @id @default(dbgenerated("uuidv7()")) @db.Uuid
+  userId     String    @db.Uuid
+  roleId     String    @db.Uuid
+  assignedBy String?   @db.Uuid
+  expiresAt  DateTime?
+  createdAt  DateTime  @default(now())
+
+  user           User  @relation("UserRoles", fields: [userId], references: [id], onDelete: Cascade)
+  role           Role  @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  assignedByUser User? @relation("AssignedByUser", fields: [assignedBy], references: [id])
+
+  @@unique([userId, roleId])
+  @@index([userId])
+  @@map("user_roles")
+}
+
+// ── Role Inheritance (Hierarquia) ──────────
+
+model RoleInheritance {
+  id           String @id @default(dbgenerated("uuidv7()")) @db.Uuid
+  parentRoleId String @db.Uuid
+  childRoleId  String @db.Uuid
+
+  parent Role @relation("ParentRole", fields: [parentRoleId], references: [id], onDelete: Cascade)
+  child  Role @relation("ChildRole", fields: [childRoleId], references: [id], onDelete: Cascade)
+
+  @@unique([parentRoleId, childRoleId])
+  @@map("role_inheritances")
 }
