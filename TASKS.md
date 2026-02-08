@@ -130,7 +130,7 @@ src/
 
 ### TASK-006: Criar implementação Prisma do repositório
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Criar `src/modules/organization/infra/repositories/prisma-organization.repository.ts`
   - Implementa `OrganizationRepository` usando `PrismaService`
@@ -138,7 +138,7 @@ src/
 
 ### TASK-007: Criar controller Organization
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Criar `src/modules/organization/presentation/organization.controller.ts`
   - Endpoints:
