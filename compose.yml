@@ -1,0 +1,14 @@
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: erp_saas_database
+    ports:
+      - "5432:5432"
+    volumes:
+      - erp_saas_database_data:/var/lib/postgresql/data
+
+volumes:
+  erp_saas_database_data:
