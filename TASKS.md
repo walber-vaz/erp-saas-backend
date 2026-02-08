@@ -114,7 +114,7 @@ src/
 
 ### TASK-005: Criar Use Cases
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - **CreateOrganizationUseCase**
     - Recebe DTO, valida slug único, document único (se informado)
