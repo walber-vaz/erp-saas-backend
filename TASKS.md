@@ -89,7 +89,7 @@ src/
 
 ### TASK-003: Criar interface do repositório Organization
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Criar `src/modules/organization/domain/repositories/organization.repository.ts`
   - Definir abstract class `OrganizationRepository` com métodos:
@@ -103,14 +103,14 @@ src/
 
 ### TASK-004: Criar DTOs de entrada
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Instalar `class-validator` e `class-transformer`
   - Criar `src/modules/organization/application/dtos/create-organization.dto.ts`
     - Campos: `name`, `slug`, `document?`
   - Criar `src/modules/organization/application/dtos/update-organization.dto.ts`
-    - Campos: `name?`, `slug?`, `document?`, `isActive?`
-  - Configurar `ValidationPipe` global no `main.ts`
+    - Usa `PartialType(CreateOrganizationDto)` do `@nestjs/mapped-types`
+  - Configurar `ValidationPipe` global no `main.ts` (já feito na TASK-001)
 
 ### TASK-005: Criar Use Cases
 
