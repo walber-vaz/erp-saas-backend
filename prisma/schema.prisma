@@ -2,18 +2,16 @@ generator client {
   provider        = "prisma-client"
   output          = "../src/generated/prisma"
   moduleFormat    = "cjs"
-  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
-  provider   = "postgresql"
-  extensions = [uuidOssp(map: "uuid-ossp")]
+  provider = "postgresql"
 }
 
 // ── Organization (Tenant) ──────────────────
 
 model Organization {
-  id        String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id        String   @id @db.Uuid
   name      String
   slug      String   @unique
   document  String?  @unique // CNPJ
@@ -31,7 +29,7 @@ model Organization {
 // ── User ───────────────────────────────────
 
 model User {
-  id             String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id             String    @id @db.Uuid
   organizationId String    @db.Uuid
   name           String
   email          String
@@ -54,7 +52,7 @@ model User {
 // ── Refresh Token (JWT) ────────────────────
 
 model RefreshToken {
-  id        String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id        String   @id @db.Uuid
   userId    String   @db.Uuid
   token     String   @unique
   family    String   @db.Uuid // agrupa tokens da mesma sessão (rotation)
@@ -73,7 +71,7 @@ model RefreshToken {
 // ── Module ─────────────────────────────────
 
 model Module {
-  id          String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id          String   @id @db.Uuid
   code        String   @unique // FINANCE, INVENTORY, HR, SALES, etc.
   name        String
   description String?
@@ -92,7 +90,7 @@ model Module {
 // ── Organization <-> Module (Subscription) ─
 
 model OrganizationModule {
-  id             String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id             String    @id @db.Uuid
   organizationId String    @db.Uuid
   moduleId       String    @db.Uuid
   isActive       Boolean   @default(true)
@@ -109,7 +107,7 @@ model OrganizationModule {
 // ── Permission ─────────────────────────────
 
 model Permission {
-  id          String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id          String   @id @db.Uuid
   moduleId    String   @db.Uuid
   code        String   @unique // MODULE_RESOURCE_ACTION: FINANCE_INVOICE_CREATE
   resource    String
@@ -128,7 +126,7 @@ model Permission {
 // ── Role ───────────────────────────────────
 
 model Role {
-  id             String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id             String   @id @db.Uuid
   organizationId String?  @db.Uuid // null = system-wide role
   name           String
   code           String
@@ -151,7 +149,7 @@ model Role {
 // ── Role <-> Permission ────────────────────
 
 model RolePermission {
-  id           String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id           String   @id @db.Uuid
   roleId       String   @db.Uuid
   permissionId String   @db.Uuid
   conditions   Json? // {"ownOnly": true}, {"maxAmount": 10000}
@@ -167,7 +165,7 @@ model RolePermission {
 // ── User <-> Role ──────────────────────────
 
 model UserRole {
-  id         String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id         String    @id @db.Uuid
   userId     String    @db.Uuid
   roleId     String    @db.Uuid
   assignedBy String?   @db.Uuid
@@ -186,7 +184,7 @@ model UserRole {
 // ── Role Inheritance (Hierarquia) ──────────
 
 model RoleInheritance {
-  id           String @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id           String @id @db.Uuid
   parentRoleId String @db.Uuid
   childRoleId  String @db.Uuid
 

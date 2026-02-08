@@ -60,16 +60,22 @@ src/
 
 ### TASK-001: Criar estrutura base shared
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Criar pasta `src/shared/prisma/` e mover `prisma.service.ts` para lá
   - Criar `src/shared/prisma/prisma.module.ts` como módulo global (`@Global()`)
   - Criar `src/shared/exceptions/domain.exception.ts` com classe base para erros de domínio
   - Atualizar imports no `app.module.ts`
+- **Extras realizados:**
+  - Instalado `class-validator` e `class-transformer`, configurado `ValidationPipe` global no `main.ts`
+  - Instalado `uuid` para geração de UUID v7 na camada de domínio
+  - Atualizado `schema.prisma`: removido `dbgenerated("uuid_generate_v4()")` de todos os models e extensão `uuid-ossp`
+  - Configurado path aliases no `tsconfig.json`: `@shared/*`, `@modules/*`, `@generated/*`
+  - Criado `src/shared/validators/cnpj.validator.ts` com função `isValidCnpj()` reutilizável
 
 ### TASK-002: Criar entidade de domínio Organization
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Criar `src/modules/organization/domain/entities/organization.entity.ts`
   - Propriedades: `id`, `name`, `slug`, `document`, `isActive`, `createdAt`, `updatedAt`
