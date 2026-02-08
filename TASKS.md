@@ -151,7 +151,7 @@ src/
 
 ### TASK-008: Criar módulo NestJS Organization
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Criar `src/modules/organization/organization.module.ts`
   - Registrar providers:
