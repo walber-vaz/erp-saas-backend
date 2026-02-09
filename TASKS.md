@@ -52,6 +52,7 @@ src/
 - **Repositórios** usam interface (abstract class) no domínio, implementação na infra
 - **Use Cases** são classes com um único método `execute()`
 - **DTOs** usam `class-validator` para validação de entrada na camada de apresentação
+- **Path aliases** configurados no `tsconfig.json`: `@shared/*`, `@modules/*`, `@generated/*` — usar nos imports
 - **Módulo NestJS** faz a composição (DI) de todas as camadas
 
 ---
