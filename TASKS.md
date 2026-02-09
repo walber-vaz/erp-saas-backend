@@ -213,7 +213,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-011: Criar entidade de domínio User
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Criar `src/modules/auth/domain/entities/user.entity.ts`
   - Propriedades: `id`, `organizationId`, `name`, `email`, `passwordHash`, `isActive`, `lastLoginAt`, `createdAt`, `updatedAt`
@@ -231,7 +231,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-012: Criar entidade de domínio RefreshToken
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Criar `src/modules/auth/domain/entities/refresh-token.entity.ts`
   - Propriedades: `id`, `userId`, `token`, `family`, `isRevoked`, `expiresAt`, `createdAt`
@@ -246,7 +246,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-013: Criar interfaces dos repositórios User e RefreshToken
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Criar `src/modules/auth/domain/repositories/user.repository.ts`
     - `findById(id: string): Promise<User | null>`
@@ -268,7 +268,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-014: Criar DTOs de autenticação
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Criar `src/modules/auth/application/dtos/register-user.dto.ts`
     - Campos: `organizationId`, `name`, `email`, `password`
@@ -284,7 +284,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-015: Criar serviços de hash e JWT
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Instalar `bcrypt` e `@nestjs/jwt`
   - Criar `src/modules/auth/application/services/hash.service.ts`
@@ -300,7 +300,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-016: Criar Use Cases de autenticação
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - **RegisterUserUseCase**
     - Valida se email é único na organização
@@ -332,7 +332,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-017: Criar Use Cases de gestão de usuários
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - **FindUserUseCase**
     - Busca usuário por ID
@@ -357,7 +357,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-018: Criar implementações Prisma dos repositórios
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Criar `src/modules/auth/infra/repositories/prisma-user.repository.ts`
     - Implementa `UserRepository` usando `PrismaService`
@@ -368,7 +368,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-019: Criar Guards e Decorators de autenticação
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Criar `src/modules/auth/presentation/guards/jwt-auth.guard.ts`
     - Valida JWT do header `Authorization: Bearer <token>`
@@ -384,7 +384,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-020: Criar controller Auth
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Criar `src/modules/auth/presentation/auth.controller.ts`
   - Endpoints:
@@ -400,7 +400,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-021: Criar controller User (gestão de usuários)
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Criar `src/modules/auth/presentation/user.controller.ts`
   - Endpoints (todos autenticados, futuramente protegidos por RBAC):
