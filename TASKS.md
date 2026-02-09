@@ -459,7 +459,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-024: Criar testes e2e do módulo Auth
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Criar testes e2e para os endpoints de Auth e User
   - Fluxo completo:
