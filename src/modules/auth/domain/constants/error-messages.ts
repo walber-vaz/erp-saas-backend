@@ -11,6 +11,15 @@ export const UserErrorMessages = {
   EMAIL_TAKEN: 'Email já está em uso nesta organização',
 } as const;
 
+export const AuthErrorMessages = {
+  INVALID_CREDENTIALS: 'Email ou senha inválidos',
+  USER_INACTIVE: 'Usuário está inativo',
+  REFRESH_TOKEN_NOT_FOUND: 'Refresh token não encontrado',
+  REFRESH_TOKEN_REVOKED: 'Refresh token foi revogado',
+  REFRESH_TOKEN_EXPIRED: 'Refresh token expirado',
+  CURRENT_PASSWORD_INVALID: 'Senha atual incorreta',
+} as const;
+
 export const RefreshTokenErrorMessages = {
   USER_ID_REQUIRED: 'ID do usuário é obrigatório',
   USER_ID_INVALID: 'ID do usuário deve ser um UUID válido',
