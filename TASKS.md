@@ -290,7 +290,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
   - Criar `src/modules/auth/application/services/hash.service.ts`
     - `hash(password: string): Promise<string>` — usa bcrypt com salt 10
     - `compare(password: string, hash: string): Promise<boolean>`
-  - Criar `src/modules/auth/application/services/jwt.service.ts`
+  - Criar `src/modules/auth/application/services/token.service.ts` (anteriormente jwt.service.ts)
     - `generateAccessToken(payload: { userId: string; organizationId: string }): string` — expira em 15min
     - `generateRefreshToken(): string` — string aleatória segura
     - `verifyAccessToken(token: string): { userId: string; organizationId: string }`
@@ -413,7 +413,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-022: Criar módulo NestJS Auth
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Criar `src/modules/auth/auth.module.ts`
   - Registrar providers:
