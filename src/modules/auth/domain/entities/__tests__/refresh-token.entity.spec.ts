@@ -47,9 +47,7 @@ describe('RefreshToken Entity', () => {
     });
 
     it('deve lançar exceção para userId vazio', () => {
-      expect(() =>
-        RefreshToken.create({ ...validProps, userId: '' }),
-      ).toThrow(
+      expect(() => RefreshToken.create({ ...validProps, userId: '' })).toThrow(
         new DomainException(RefreshTokenErrorMessages.USER_ID_REQUIRED),
       );
     });
@@ -57,23 +55,17 @@ describe('RefreshToken Entity', () => {
     it('deve lançar exceção para userId com formato inválido', () => {
       expect(() =>
         RefreshToken.create({ ...validProps, userId: 'not-a-uuid' }),
-      ).toThrow(
-        new DomainException(RefreshTokenErrorMessages.USER_ID_INVALID),
-      );
+      ).toThrow(new DomainException(RefreshTokenErrorMessages.USER_ID_INVALID));
     });
 
     it('deve lançar exceção para token vazio', () => {
-      expect(() =>
-        RefreshToken.create({ ...validProps, token: '' }),
-      ).toThrow(
+      expect(() => RefreshToken.create({ ...validProps, token: '' })).toThrow(
         new DomainException(RefreshTokenErrorMessages.TOKEN_REQUIRED),
       );
     });
 
     it('deve lançar exceção para family vazio', () => {
-      expect(() =>
-        RefreshToken.create({ ...validProps, family: '' }),
-      ).toThrow(
+      expect(() => RefreshToken.create({ ...validProps, family: '' })).toThrow(
         new DomainException(RefreshTokenErrorMessages.FAMILY_REQUIRED),
       );
     });
@@ -81,9 +73,7 @@ describe('RefreshToken Entity', () => {
     it('deve lançar exceção para family com formato inválido', () => {
       expect(() =>
         RefreshToken.create({ ...validProps, family: 'not-a-uuid' }),
-      ).toThrow(
-        new DomainException(RefreshTokenErrorMessages.FAMILY_INVALID),
-      );
+      ).toThrow(new DomainException(RefreshTokenErrorMessages.FAMILY_INVALID));
     });
 
     it('deve lançar exceção para expiresAt no passado', () => {

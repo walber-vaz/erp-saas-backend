@@ -59,9 +59,7 @@ describe('User Entity', () => {
     });
 
     it('deve lançar exceção para organizationId vazio', () => {
-      expect(() =>
-        User.create({ ...validProps, organizationId: '' }),
-      ).toThrow(
+      expect(() => User.create({ ...validProps, organizationId: '' })).toThrow(
         new DomainException(UserErrorMessages.ORGANIZATION_ID_REQUIRED),
       );
     });
@@ -69,9 +67,7 @@ describe('User Entity', () => {
     it('deve lançar exceção para organizationId com formato inválido', () => {
       expect(() =>
         User.create({ ...validProps, organizationId: 'not-a-uuid' }),
-      ).toThrow(
-        new DomainException(UserErrorMessages.ORGANIZATION_ID_INVALID),
-      );
+      ).toThrow(new DomainException(UserErrorMessages.ORGANIZATION_ID_INVALID));
     });
 
     it('deve lançar exceção para nome com menos de 2 caracteres', () => {
@@ -108,9 +104,7 @@ describe('User Entity', () => {
     });
 
     it('deve lançar exceção para passwordHash vazio', () => {
-      expect(() =>
-        User.create({ ...validProps, passwordHash: '' }),
-      ).toThrow(
+      expect(() => User.create({ ...validProps, passwordHash: '' })).toThrow(
         new DomainException(UserErrorMessages.PASSWORD_HASH_REQUIRED),
       );
     });
