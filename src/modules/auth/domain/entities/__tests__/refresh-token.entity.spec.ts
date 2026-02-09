@@ -119,22 +119,24 @@ describe('RefreshToken Entity', () => {
     });
 
     it('deve retornar false para token expirado', () => {
+      vi.useFakeTimers();
+
+      const creationDate = new Date();
+      vi.setSystemTime(creationDate);
+
       const rt = RefreshToken.create({
         ...validProps,
-        expiresAt: futureDate(),
-        isRevoked: false,
+        expiresAt: new Date(creationDate.getTime() + 1000), // expires in 1 second
       });
 
-      // Simula expiração reconstruindo com data passada
-      const expiredRt = RefreshToken.create({
-        ...validProps,
-        id: rt.id,
-        expiresAt: new Date(Date.now() + 100000),
-        isRevoked: false,
-      });
+      expect(rt.isValid()).toBe(true);
 
-      // Token válido não expirou
-      expect(expiredRt.isValid()).toBe(true);
+      // Advance time by 2 seconds
+      vi.setSystemTime(new Date(creationDate.getTime() + 2000));
+
+      expect(rt.isValid()).toBe(false);
+
+      vi.useRealTimers();
     });
   });
 
@@ -143,6 +145,27 @@ describe('RefreshToken Entity', () => {
       const rt = RefreshToken.create(validProps);
 
       expect(rt.isExpired()).toBe(false);
+    });
+
+    it('deve retornar true para token com data passada', () => {
+      vi.useFakeTimers();
+
+      const creationDate = new Date();
+      vi.setSystemTime(creationDate);
+
+      const rt = RefreshToken.create({
+        ...validProps,
+        expiresAt: new Date(creationDate.getTime() + 1000), // expires in 1 second
+      });
+
+      expect(rt.isExpired()).toBe(false);
+
+      // Advance time by 2 seconds
+      vi.setSystemTime(new Date(creationDate.getTime() + 2000));
+
+      expect(rt.isExpired()).toBe(true);
+
+      vi.useRealTimers();
     });
   });
 

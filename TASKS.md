@@ -430,7 +430,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-023: Criar testes unitários do módulo Auth
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Testar entidades `User` e `RefreshToken` (validações, métodos)
   - Testar serviços `HashService` e `JwtService`
