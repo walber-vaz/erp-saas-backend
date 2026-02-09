@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { OrganizationFacade } from './application/facades/organization.facade';
 import { CreateOrganizationUseCase } from './application/use-cases/create-organization.use-case';
 import { DeactivateOrganizationUseCase } from './application/use-cases/deactivate-organization.use-case';
 import { FindOrganizationUseCase } from './application/use-cases/find-organization.use-case';
@@ -11,6 +12,7 @@ import { OrganizationController } from './presentation/organization.controller';
 @Module({
   controllers: [OrganizationController],
   providers: [
+    OrganizationFacade,
     CreateOrganizationUseCase,
     UpdateOrganizationUseCase,
     FindOrganizationUseCase,
