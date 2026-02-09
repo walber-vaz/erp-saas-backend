@@ -484,7 +484,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-026: Criar entidade de domínio Permission
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Criar `src/modules/rbac/domain/entities/permission.entity.ts`
   - Propriedades: `id`, `moduleId`, `code`, `resource`, `action`, `description`, `createdAt`

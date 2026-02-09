@@ -39,7 +39,9 @@ describe('CleanExpiredTokensJob', () => {
     expect(logger.log).toHaveBeenCalledWith(
       'Iniciando job de limpeza de tokens expirados...',
     );
-    expect(logger.log).toHaveBeenCalledWith('Tokens expirados limpos com sucesso.');
+    expect(logger.log).toHaveBeenCalledWith(
+      'Tokens expirados limpos com sucesso.',
+    );
   });
 
   it('deve logar erro se a limpeza falhar', async () => {
