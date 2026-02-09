@@ -3,6 +3,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import type { StringValue } from 'ms';
+import { ScheduleModule } from '@nestjs/schedule';
+import { CleanExpiredTokensJob } from './application/jobs/clean-expired-tokens.job';
 import { RegisterUserUseCase } from './application/use-cases/register-user.use-case';
 import { LoginUseCase } from './application/use-cases/login.use-case';
 import { RefreshTokenUseCase } from './application/use-cases/refresh-token.use-case';
@@ -44,6 +46,7 @@ import { UserFacade } from './application/facades/user.facade';
       inject: [ConfigService],
     }),
     PassportModule,
+    ScheduleModule.forRoot(),
   ],
   providers: [
     RegisterUserUseCase,
@@ -58,6 +61,7 @@ import { UserFacade } from './application/facades/user.facade';
     DeactivateUserUseCase,
     HashService,
     TokenService,
+    CleanExpiredTokensJob,
     {
       provide: UserRepository,
       useClass: PrismaUserRepository,

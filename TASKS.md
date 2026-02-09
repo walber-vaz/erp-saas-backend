@@ -471,7 +471,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-025: Criar job de limpeza de tokens expirados
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Criar `src/modules/auth/application/jobs/clean-expired-tokens.job.ts`
   - Executa periodicamente (ex: diariamente) via cron ou scheduler
