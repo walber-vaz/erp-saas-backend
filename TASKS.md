@@ -498,7 +498,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-027: Criar entidade de domínio Role
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Criar `src/modules/rbac/domain/entities/role.entity.ts`
   - Propriedades: `id`, `organizationId`, `name`, `code`, `description`, `isSystem`, `createdAt`, `updatedAt`
