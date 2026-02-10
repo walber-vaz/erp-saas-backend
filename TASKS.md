@@ -530,7 +530,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-029: Criar interfaces dos repositórios RBAC
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Criar `src/modules/rbac/domain/repositories/permission.repository.ts`
     - `findById(id: string): Promise<Permission | null>`
