@@ -687,7 +687,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-036: Criar implementações Prisma dos repositórios RBAC
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Criar `src/modules/rbac/infra/repositories/prisma-permission.repository.ts`
   - Criar `src/modules/rbac/infra/repositories/prisma-role.repository.ts`
