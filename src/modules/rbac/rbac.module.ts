@@ -1,12 +1,8 @@
 import { Module } from '@nestjs/common';
 import { AuthModule } from '@modules/auth/auth.module';
-
-// Controllers
 import { PermissionController } from './presentation/permission.controller';
 import { RoleController } from './presentation/role.controller';
 import { UserRoleController } from './presentation/user-role.controller';
-
-// Use Cases
 import { AssignPermissionToRoleUseCase } from './application/use-cases/assign-permission-to-role.use-case';
 import { AssignRoleToUserUseCase } from './application/use-cases/assign-role-to-user.use-case';
 import { CreatePermissionUseCase } from './application/use-cases/create-permission.use-case';
@@ -25,16 +21,10 @@ import { RemovePermissionFromRoleUseCase } from './application/use-cases/remove-
 import { RemoveRoleFromUserUseCase } from './application/use-cases/remove-role-from-user.use-case';
 import { RemoveRoleInheritanceUseCase } from './application/use-cases/remove-role-inheritance.use-case';
 import { UpdateRoleUseCase } from './application/use-cases/update-role.use-case';
-
-// Services
 import { PermissionCheckerService } from './application/services/permission-checker.service';
-
-// Facades
 import { PermissionFacade } from './application/facades/permission.facade';
 import { RoleFacade } from './application/facades/role.facade';
 import { UserRoleFacade } from './application/facades/user-role.facade';
-
-// Repositories
 import { PermissionRepository } from './domain/repositories/permission.repository';
 import { RoleInheritanceRepository } from './domain/repositories/role-inheritance.repository';
 import { RolePermissionRepository } from './domain/repositories/role-permission.repository';
