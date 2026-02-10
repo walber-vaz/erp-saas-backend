@@ -833,7 +833,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-045: Criar DTOs do módulo Module Management
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Criar `src/modules/module-management/application/dtos/create-module.dto.ts`
     - Campos: `code`, `name`, `description?`, `icon?`, `sortOrder?`
