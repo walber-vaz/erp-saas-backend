@@ -844,7 +844,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-046: Criar Use Cases de Module
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - **CreateModuleUseCase**
     - Valida se code é único

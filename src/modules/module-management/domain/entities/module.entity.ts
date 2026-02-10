@@ -20,28 +20,53 @@ export interface ModuleProps {
 export class Module {
   readonly id: string;
   readonly code: string;
-  readonly name: string;
-  readonly description: string | null;
-  readonly icon: string | null;
-  readonly isActive: boolean;
-  readonly sortOrder: number;
+  private _name: string;
+  private _description: string | null;
+  private _icon: string | null;
+  private _isActive: boolean;
+  private _sortOrder: number;
   readonly createdAt: Date;
-  readonly updatedAt: Date;
+  private _updatedAt: Date;
 
   private constructor(props: Required<ModuleProps>) {
     this.id = props.id;
     this.code = props.code;
-    this.name = props.name;
-    this.description = props.description;
-    this.icon = props.icon;
-    this.isActive = props.isActive;
-    this.sortOrder = props.sortOrder;
+    this._name = props.name;
+    this._description = props.description;
+    this._icon = props.icon;
+    this._isActive = props.isActive;
+    this._sortOrder = props.sortOrder;
     this.createdAt = props.createdAt;
-    this.updatedAt = props.updatedAt;
+    this._updatedAt = props.updatedAt;
+  }
+
+  get name(): string {
+    return this._name;
+  }
+
+  get description(): string | null {
+    return this._description;
+  }
+
+  get icon(): string | null {
+    return this._icon;
+  }
+
+  get isActive(): boolean {
+    return this._isActive;
+  }
+
+  get sortOrder(): number {
+    return this._sortOrder;
+  }
+
+  get updatedAt(): Date {
+    return this._updatedAt;
   }
 
   public static create(props: ModuleProps): Module {
-    Module.validate(props);
+    Module.validateCode(props.code);
+    Module.validateName(props.name);
     const now = new Date();
     return new Module({
       id: props.id ?? uuidv7(),
@@ -56,52 +81,48 @@ export class Module {
     });
   }
 
-  public update(props: Partial<ModuleProps>): Module {
-    const updatedName = props.name !== undefined ? props.name : this.name;
-    const updatedDescription =
-      props.description !== undefined ? props.description : this.description;
-    const updatedIcon = props.icon !== undefined ? props.icon : this.icon;
-    const updatedSortOrder =
-      props.sortOrder !== undefined ? props.sortOrder : this.sortOrder;
-
-    if (!updatedName) {
-      throw new DomainException(ModuleErrorMessages.NAME_REQUIRED);
+  public update(props: Partial<Pick<ModuleProps, 'name' | 'description' | 'icon' | 'sortOrder'>>): Module {
+    if (props.name !== undefined) {
+      Module.validateName(props.name);
+      this._name = props.name;
     }
-
-    const updatedModule = new Module({
-      id: this.id,
-      code: this.code,
-      name: updatedName,
-      description: updatedDescription,
-      icon: updatedIcon,
-      isActive: this.isActive,
-      sortOrder: updatedSortOrder,
-      createdAt: this.createdAt,
-      updatedAt: new Date(),
-    });
-
-    return updatedModule;
+    if (props.description !== undefined) {
+      this._description = props.description;
+    }
+    if (props.icon !== undefined) {
+      this._icon = props.icon;
+    }
+    if (props.sortOrder !== undefined) {
+      this._sortOrder = props.sortOrder;
+    }
+    this._updatedAt = new Date();
+    return this;
   }
 
   public activate(): void {
-    if (this.isActive) {
+    if (this._isActive) {
       return;
     }
-    Object.assign(this, { isActive: true, updatedAt: new Date() });
+    this._isActive = true;
+    this._updatedAt = new Date();
   }
 
   public deactivate(): void {
-    if (!this.isActive) {
+    if (!this._isActive) {
       return;
     }
-    Object.assign(this, { isActive: false, updatedAt: new Date() });
+    this._isActive = false;
+    this._updatedAt = new Date();
   }
 
-  private static validate(props: ModuleProps) {
-    if (!props.code) {
+  private static validateCode(code: string): void {
+    if (!code) {
       throw new DomainException(ModuleErrorMessages.CODE_REQUIRED);
     }
-    if (!props.name) {
+  }
+
+  private static validateName(name: string): void {
+    if (!name) {
       throw new DomainException(ModuleErrorMessages.NAME_REQUIRED);
     }
   }
@@ -110,13 +131,13 @@ export class Module {
     return {
       id: this.id,
       code: this.code,
-      name: this.name,
-      description: this.description,
-      icon: this.icon,
-      isActive: this.isActive,
-      sortOrder: this.sortOrder,
+      name: this._name,
+      description: this._description,
+      icon: this._icon,
+      isActive: this._isActive,
+      sortOrder: this._sortOrder,
       createdAt: this.createdAt,
-      updatedAt: this.updatedAt,
+      updatedAt: this._updatedAt,
     };
   }
 }
