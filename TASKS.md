@@ -799,7 +799,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-043: Criar entidade de domínio OrganizationModule
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Criar `src/modules/module-management/domain/entities/organization-module.entity.ts`
   - Propriedades: `id`, `organizationId`, `moduleId`, `isActive`, `activatedAt`, `deactivatedAt`
