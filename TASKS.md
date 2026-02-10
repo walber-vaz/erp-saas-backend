@@ -813,7 +813,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-044: Criar interfaces dos repositórios Module e OrganizationModule
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Criar `src/modules/module-management/domain/repositories/module.repository.ts`
     - `findById(id: string): Promise<Module | null>`
