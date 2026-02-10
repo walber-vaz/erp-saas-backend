@@ -599,7 +599,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-032: Criar Use Cases de Role
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - **CreateRoleUseCase**
     - Valida se code é único dentro da organização

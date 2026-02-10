@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Permission } from '../../../domain/entities/permission.entity';
-import { PermissionRepository } from '../../../domain/repositories/permission.repository';
+import { Permission } from '@modules/rbac/domain/entities/permission.entity';
+import { PermissionRepository } from '@modules/rbac/domain/repositories/permission.repository';
 
 @Injectable()
 export class ListPermissionsUseCase {

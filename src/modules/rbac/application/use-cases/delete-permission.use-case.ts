@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { DomainException } from '@shared/exceptions/domain.exception';
-import { PermissionRepository } from '../../../domain/repositories/permission.repository';
-import { PermissionErrorMessages } from '../../../domain/constants/error-messages';
+import { PermissionRepository } from '@modules/rbac/domain/repositories/permission.repository';
+import { PermissionErrorMessages } from '@modules/rbac/domain/constants/error-messages';
 
 @Injectable()
 export class DeletePermissionUseCase {

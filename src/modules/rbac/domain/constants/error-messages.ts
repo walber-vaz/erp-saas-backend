@@ -46,8 +46,10 @@ export const UserRoleErrorMessages = {
 export const RoleInheritanceErrorMessages = {
   PARENT_ROLE_ID_REQUIRED: 'ID do role pai é obrigatório',
   PARENT_ROLE_ID_INVALID: 'ID do role pai deve ser um UUID válido',
+  PARENT_ROLE_NOT_FOUND: 'Role pai não encontrado',
   CHILD_ROLE_ID_REQUIRED: 'ID do role filho é obrigatório',
   CHILD_ROLE_ID_INVALID: 'ID do role filho deve ser um UUID válido',
+  CHILD_ROLE_NOT_FOUND: 'Role filho não encontrado',
   CANNOT_INHERIT_SELF: 'Um role não pode herdar de si mesmo',
   CYCLE_DETECTED: 'Ciclo de herança detectado',
 } as const;

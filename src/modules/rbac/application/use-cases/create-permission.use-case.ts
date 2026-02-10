@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { DomainException } from '@shared/exceptions/domain.exception';
-import { Permission } from '../../../domain/entities/permission.entity';
-import { PermissionRepository } from '../../../domain/repositories/permission.repository';
-import { CreatePermissionDto } from '../../dtos/create-permission.dto';
-import { ModuleRepository } from '../../../../module-management/domain/repositories/module.repository';
-import { PermissionErrorMessages } from '../../../domain/constants/error-messages';
+import { Permission } from '@modules/rbac/domain/entities/permission.entity';
+import { PermissionRepository } from '@modules/rbac/domain/repositories/permission.repository';
+import { CreatePermissionDto } from '@modules/rbac/application/dtos/create-permission.dto';
+import { ModuleRepository } from '@modules/module-management/domain/repositories/module.repository';
+import { PermissionErrorMessages } from '@modules/rbac/domain/constants/error-messages';
 
 @Injectable()
 export class CreatePermissionUseCase {

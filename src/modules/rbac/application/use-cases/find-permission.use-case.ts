@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { DomainException } from '@shared/exceptions/domain.exception';
-import { Permission } from '../../../domain/entities/permission.entity';
-import { PermissionRepository } from '../../../domain/repositories/permission.repository';
-import { PermissionErrorMessages } from '../../../domain/constants/error-messages';
+import { Permission } from '@modules/rbac/domain/entities/permission.entity';
+import { PermissionRepository } from '@modules/rbac/domain/repositories/permission.repository';
+import { PermissionErrorMessages } from '@modules/rbac/domain/constants/error-messages';
 
 @Injectable()
 export class FindPermissionUseCase {
