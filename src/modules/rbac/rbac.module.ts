@@ -88,8 +88,10 @@ const repositories = [
   },
 ];
 
+import { ModuleManagementModule } from '@modules/module-management/module-management.module';
+
 @Module({
-  imports: [AuthModule],
+  imports: [AuthModule, ModuleManagementModule],
   controllers: [PermissionController, RoleController, UserRoleController],
   providers: [
     ...useCases,

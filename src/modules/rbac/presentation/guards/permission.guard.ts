@@ -8,12 +8,15 @@ import { Reflector } from '@nestjs/core';
 import { IS_PUBLIC_KEY } from '@modules/auth/presentation/decorators/public.decorator';
 import { PERMISSIONS_KEY } from '../decorators/require-permission.decorator';
 import { PermissionCheckerService } from '@modules/rbac/application/services/permission-checker.service';
+import { CheckModuleAccessUseCase } from '@modules/module-management/application/use-cases/check-module-access.use-case';
+import { OrganizationModuleErrorMessages } from '@modules/module-management/domain/constants/error-messages';
 
 @Injectable()
 export class PermissionGuard implements CanActivate {
   constructor(
     private readonly reflector: Reflector,
     private readonly permissionCheckerService: PermissionCheckerService,
+    private readonly checkModuleAccessUC: CheckModuleAccessUseCase,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -40,6 +43,26 @@ export class PermissionGuard implements CanActivate {
 
     if (!user) {
       throw new ForbiddenException('Acesso negado');
+    }
+
+    const moduleCodes = new Set<string>();
+    for (const permission of requiredPermissions) {
+      const moduleCode = permission.split('_')[0];
+      if (moduleCode) {
+        moduleCodes.add(moduleCode);
+      }
+    }
+
+    for (const moduleCode of Array.from(moduleCodes)) {
+      const hasModuleAccess = await this.checkModuleAccessUC.execute(
+        user.organizationId,
+        moduleCode,
+      );
+      if (!hasModuleAccess) {
+        throw new ForbiddenException(
+          OrganizationModuleErrorMessages.MODULE_NOT_CONTRACTED,
+        );
+      }
     }
 
     for (const permission of requiredPermissions) {

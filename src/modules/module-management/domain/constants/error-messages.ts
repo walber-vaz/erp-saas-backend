@@ -14,4 +14,5 @@ export const OrganizationModuleErrorMessages = {
   ALREADY_INACTIVE: 'Módulo já está inativo para esta organização',
   NOT_FOUND: 'Módulo da organização não encontrado',
   MODULE_NOT_ACTIVE_GLOBALLY: 'Módulo não está ativo globalmente',
+  MODULE_NOT_CONTRACTED: 'Módulo não contratado',
 } as const;

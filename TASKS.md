@@ -930,7 +930,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-051: Criar seed de módulos do sistema
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Criar `prisma/seeds/modules.seed.ts`
   - Seed de módulos básicos:
@@ -946,7 +946,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-052: Atualizar guard de autorização para verificar módulo ativo
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Atualizar `PermissionGuard` (TASK-035) para:
     - Extrair módulo da permissão (primeira parte do code: `FINANCE_INVOICE_CREATE` → `FINANCE`)

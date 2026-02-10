@@ -2,6 +2,7 @@ import 'dotenv/config';
 import { PrismaClient, Prisma } from '../src/generated/prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { v7 as uuid } from 'uuid';
+import { seedModules } from './seeds/modules.seed';
 
 const adapter = new PrismaPg({
   connectionString: process.env.DATABASE_URL,
@@ -14,12 +15,27 @@ const prisma = new PrismaClient({
 async function main() {
   console.log('Start seeding...');
 
-  // 1. Create a core "SYSTEM" module for RBAC permissions
+  if (process.env.NODE_ENV === 'development') {
+    console.warn('NODE_ENV=development: clearing database before seeding...');
+    await prisma.$transaction([
+      prisma.rolePermission.deleteMany(),
+      prisma.roleInheritance.deleteMany(),
+      prisma.userRole.deleteMany(),
+      prisma.refreshToken.deleteMany(),
+      prisma.organizationModule.deleteMany(),
+      prisma.permission.deleteMany(),
+      prisma.role.deleteMany(),
+      prisma.user.deleteMany(),
+      prisma.module.deleteMany(),
+      prisma.organization.deleteMany(),
+    ]);
+  }
+
   const systemModule = await prisma.module.upsert({
     where: { code: 'SYSTEM' },
     update: {},
     create: {
-      id: 'a8d2a678-3b3d-4c3e-9a1f-5a8b7a6b3c3e', // Fixed ID for system module
+      id: 'a8d2a678-3b3d-4c3e-9a1f-5a8b7a6b3c3e',
       code: 'SYSTEM',
       name: 'System',
       description: 'Core system module for permissions and settings.',
@@ -27,24 +43,23 @@ async function main() {
   });
   console.log(`Created/found module: ${systemModule.name}`);
 
-  // 2. Create system-wide roles
   const roles: Prisma.RoleCreateInput[] = [
     {
-      id: 'f8d2a678-3b3d-4c3e-9a1f-5a8b7a6b3c3f', // Fixed ID for SUPER_ADMIN
+      id: 'f8d2a678-3b3d-4c3e-9a1f-5a8b7a6b3c3f',
       code: 'SUPER_ADMIN',
       name: 'Super Admin',
       description: 'Has all permissions across all organizations.',
       isSystem: true,
     },
     {
-      id: 'e8d2a678-3b3d-4c3e-9a1f-5a8b7a6b3c3d', // Fixed ID for ORG_ADMIN
+      id: 'e8d2a678-3b3d-4c3e-9a1f-5a8b7a6b3c3d',
       code: 'ORG_ADMIN',
       name: 'Organization Admin',
       description: 'Has all permissions within their organization.',
       isSystem: true,
     },
     {
-      id: 'd8d2a678-3b3d-4c3e-9a1f-5a8b7a6b3c3c', // Fixed ID for VIEWER
+      id: 'd8d2a678-3b3d-4c3e-9a1f-5a8b7a6b3c3c',
       code: 'VIEWER',
       name: 'Viewer',
       description: 'Has read-only access to all modules.',
@@ -61,14 +76,11 @@ async function main() {
     console.log(`Created/found role: ${createdRole.name}`);
   }
 
-  // 3. Create permissions for the RBAC module
   const rbacPermissionsData = [
-    // Role management
     { resource: 'ROLE', action: 'CREATE', description: 'Create a new role' },
     { resource: 'ROLE', action: 'READ', description: 'Read role details' },
     { resource: 'ROLE', action: 'UPDATE', description: 'Update a role' },
     { resource: 'ROLE', action: 'DELETE', description: 'Delete a role' },
-    // Permission management
     {
       resource: 'PERMISSION',
       action: 'CREATE',
@@ -84,7 +96,6 @@ async function main() {
       action: 'DELETE',
       description: 'Delete a permission',
     },
-    // User-Role assignment
     {
       resource: 'USER_ROLE',
       action: 'ASSIGN',
@@ -123,7 +134,6 @@ async function main() {
     console.log(`Created/found permission: ${created.code}`);
   }
 
-  // 4. Assign all RBAC permissions to the ORG_ADMIN role
   const orgAdminRole = await prisma.role.findUnique({
     where: { id: 'e8d2a678-3b3d-4c3e-9a1f-5a8b7a6b3c3d' },
   });
@@ -147,6 +157,8 @@ async function main() {
       console.log(`Assigned ${permission.code} to ${orgAdminRole.code}`);
     }
   }
+
+  await seedModules(prisma);
 
   console.log('Seeding finished.');
 }
