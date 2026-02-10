@@ -1,7 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { OrganizationModule } from './modules/organization/organization.module';
+import { APP_GUARD } from '@nestjs/core';
 import { AuthModule } from './modules/auth/auth.module';
+import { JwtAuthGuard } from './modules/auth/presentation/guards/jwt-auth.guard';
+import { OrganizationModule } from './modules/organization/organization.module';
+import { PermissionGuard } from './modules/rbac/presentation/guards/permission.guard';
+import { RbacModule } from './modules/rbac/rbac.module';
 import { PrismaModule } from './shared/prisma/prisma.module';
 
 @Module({
@@ -10,8 +14,18 @@ import { PrismaModule } from './shared/prisma/prisma.module';
     PrismaModule,
     OrganizationModule,
     AuthModule,
+    RbacModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: PermissionGuard,
+    },
+  ],
 })
 export class AppModule {}

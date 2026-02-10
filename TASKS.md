@@ -724,7 +724,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-038: Criar módulo NestJS RBAC
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Criar `src/modules/rbac/rbac.module.ts`
   - Registrar providers:
