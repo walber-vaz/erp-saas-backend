@@ -513,7 +513,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-028: Criar entidades de domínio RolePermission, UserRole, RoleInheritance
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Criar `src/modules/rbac/domain/entities/role-permission.entity.ts`
     - Propriedades: `id`, `roleId`, `permissionId`, `conditions`, `createdAt`
