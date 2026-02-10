@@ -566,7 +566,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-030: Criar DTOs do módulo RBAC
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Criar `src/modules/rbac/application/dtos/create-permission.dto.ts`
     - Campos: `moduleId`, `resource`, `action`, `description?`
@@ -583,7 +583,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-031: Criar Use Cases de Permission
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - **CreatePermissionUseCase**
     - Gera code automaticamente a partir de moduleId, resource e action
@@ -594,8 +594,6 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
   - **ListPermissionsUseCase**
     - Lista todas as permissões
     - Filtros opcionais: moduleId
-  - **ListPermissionsByModuleUseCase**
-    - Busca permissões de um módulo específico
   - **DeletePermissionUseCase**
     - Deleta permissão (cascata deve remover de RolePermission)
 
