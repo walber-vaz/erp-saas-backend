@@ -22,7 +22,7 @@ export class CreateRoleUseCase {
     }
 
     const role = Role.create({
-      organizationId: dto.organizationId,
+      organizationId: dto.organizationId ?? null,
       name: dto.name,
       code: dto.code,
       description: dto.description,

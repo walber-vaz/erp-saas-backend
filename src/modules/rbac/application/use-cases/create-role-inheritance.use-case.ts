@@ -30,12 +30,32 @@ export class CreateRoleInheritanceUseCase {
       );
     }
 
-    // Basic validation: A role cannot inherit from itself.
-    // More advanced cycle detection would be needed here, potentially involving graph traversal.
     if (dto.parentRoleId === dto.childRoleId) {
       throw new DomainException(
         RoleInheritanceErrorMessages.CANNOT_INHERIT_SELF,
       );
+    }
+
+    // Cycle detection: check if adding this edge (child → parent) would create a cycle.
+    // We traverse ancestors of parentRoleId; if we reach childRoleId, it's a cycle.
+    const visited = new Set<string>();
+    const queue = [dto.parentRoleId];
+
+    while (queue.length > 0) {
+      const currentId = queue.shift()!;
+      if (currentId === dto.childRoleId) {
+        throw new DomainException(RoleInheritanceErrorMessages.CYCLE_DETECTED);
+      }
+      if (visited.has(currentId)) continue;
+      visited.add(currentId);
+
+      const parents =
+        await this.roleInheritanceRepository.findByChildId(currentId);
+      for (const parent of parents) {
+        if (!visited.has(parent.parentRoleId)) {
+          queue.push(parent.parentRoleId);
+        }
+      }
     }
 
     const roleInheritance = RoleInheritance.create({

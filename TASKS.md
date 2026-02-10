@@ -626,7 +626,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-033: Criar Use Cases de UserRole e RoleInheritance
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - **AssignRoleToUserUseCase**
     - Valida se user e role existem
@@ -639,12 +639,13 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
     - Lista roles de um usuário
     - Filtra roles expirados
   - **CreateRoleInheritanceUseCase**
-    - Valida se não cria ciclo (ex: A herda B, B herda A)
+    - Valida se não cria ciclo via BFS (detecta ciclos diretos e indiretos)
     - Cria RoleInheritance
   - **RemoveRoleInheritanceUseCase**
     - Remove RoleInheritance
   - **ListRoleInheritanceUseCase**
     - Lista herança de um role (pais e filhos)
+  - **Testes unitários:** 18 testes cobrindo todos os 6 use cases (happy path, validações, ciclos)
 
 ### TASK-034: Criar serviço de autorização (PermissionChecker)
 
@@ -663,6 +664,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
     - `resolveRoleInheritance(roleId: string): Promise<string[]>`
       - Retorna IDs de todos os roles herdados (recursivo)
   - Implementar cache in-memory para performance (opcional, pode usar `@nestjs/cache-manager`)
+  - **Testes unitários:** testar resolução de herança, verificação de permissões, avaliação de conditions
 
 ### TASK-035: Criar Guard e Decorator de autorização
 
@@ -680,6 +682,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
     - Decorator `@RequireModule('MODULE_CODE')`
     - Valida se o módulo está ativo na organização do usuário
   - Configurar PermissionGuard como global (após JwtAuthGuard)
+  - **Testes unitários:** testar guard com permissão válida, sem permissão, rota pública
 
 ### TASK-036: Criar implementações Prisma dos repositórios RBAC
 
@@ -749,20 +752,16 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
   - Atribuir permissões aos roles de sistema
   - Executar seed no setup inicial do projeto
 
-### TASK-040: Criar testes unitários do módulo RBAC
+### TASK-040: Criar testes unitários restantes do módulo RBAC
 
 - **Status:** pendente
 - **Descrição:**
-  - Testar entidades (Permission, Role, RolePermission, UserRole, RoleInheritance)
-  - Testar PermissionCheckerService:
-    - Resolução de herança de roles
-    - Verificação de permissões
-    - Avaliação de conditions
-  - Testar use cases principais com repositórios mockados:
-    - CreateRoleUseCase (code único)
-    - AssignPermissionToRoleUseCase
-    - AssignRoleToUserUseCase (validação de organização)
-    - PermissionChecker.userHasPermission (com e sem herança)
+  - Testar use cases de Permission (TASK-031) e Role (TASK-032) com repositórios mockados:
+    - CreatePermissionUseCase, FindPermissionUseCase, ListPermissionsUseCase, DeletePermissionUseCase
+    - CreateRoleUseCase, UpdateRoleUseCase, FindRoleUseCase, ListRolesUseCase, DeleteRoleUseCase
+    - AssignPermissionToRoleUseCase, RemovePermissionFromRoleUseCase, ListRolePermissionsUseCase
+  - **Nota:** testes de use cases de UserRole e RoleInheritance (TASK-033) já implementados
+  - **Nota:** testes de entidades já existem em `domain/entities/__tests__/`
   - Usar Vitest
   - Estrutura de testes espelhando src
 
@@ -861,6 +860,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
   - **DeactivateModuleUseCase** (desabilita módulo globalmente)
     - Chama `deactivate()` na entidade
     - Desativa automaticamente em todas as organizações (OrganizationModule)
+  - **Testes unitários:** testar cada use case com repositórios mockados
 
 ### TASK-047: Criar Use Cases de OrganizationModule
 
@@ -883,6 +883,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
     - Recebe organizationId e moduleCode
     - Verifica se o módulo está ativo na organização
     - Usado pelo guard de autorização
+  - **Testes unitários:** testar cada use case com repositórios mockados
 
 ### TASK-048: Criar implementações Prisma dos repositórios
 
@@ -952,16 +953,12 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
     - Se módulo não estiver ativo, lançar `ForbiddenException` com mensagem "Módulo não contratado"
   - Adicionar cache para evitar consultas repetidas (opcional)
 
-### TASK-053: Criar testes unitários do módulo Module Management
+### TASK-053: Criar testes unitários de entidades do módulo Module Management
 
 - **Status:** pendente
 - **Descrição:**
   - Testar entidades `Module` e `OrganizationModule` (validações, métodos)
-  - Testar use cases com repositórios mockados:
-    - CreateModuleUseCase (code único)
-    - ActivateModuleForOrganizationUseCase (módulo inativo globalmente, já ativo)
-    - DeactivateModuleUseCase (desativa em todas as organizações)
-    - CheckModuleAccessUseCase
+  - **Nota:** testes de use cases são incluídos nas respectivas tasks (TASK-046, TASK-047)
   - Usar Vitest
   - Estrutura de testes espelhando src
 
