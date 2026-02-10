@@ -33,7 +33,10 @@ describe('OrganizationModule Entity', () => {
     });
 
     it('should allow isActive to be set to true on creation', () => {
-      const orgModule = OrganizationModule.create({ ...validProps, isActive: true });
+      const orgModule = OrganizationModule.create({
+        ...validProps,
+        isActive: true,
+      });
       expect(orgModule.isActive).toBe(true);
     });
 
@@ -79,7 +82,10 @@ describe('OrganizationModule Entity', () => {
 
   describe('activate', () => {
     it('should activate an inactive organization module', () => {
-      const orgModule = OrganizationModule.create({ ...validProps, isActive: false });
+      const orgModule = OrganizationModule.create({
+        ...validProps,
+        isActive: false,
+      });
       orgModule.activate();
 
       expect(orgModule.isActive).toBe(true);

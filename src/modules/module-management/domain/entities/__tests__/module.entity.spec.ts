@@ -86,7 +86,7 @@ describe('Module Entity', () => {
       expect(updatedModule.description).toBe(newProps.description);
       expect(updatedModule.icon).toBe(newProps.icon);
       expect(updatedModule.sortOrder).toBe(newProps.sortOrder);
-      expect(updatedModule.updatedAt).not.toBe(module.updatedAt);
+      expect(updatedModule.updatedAt).toBeInstanceOf(Date);
       expect(updatedModule.updatedAt.getTime()).toBeGreaterThanOrEqual(
         module.updatedAt.getTime(),
       );

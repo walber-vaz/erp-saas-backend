@@ -81,7 +81,11 @@ export class Module {
     });
   }
 
-  public update(props: Partial<Pick<ModuleProps, 'name' | 'description' | 'icon' | 'sortOrder'>>): Module {
+  public update(
+    props: Partial<
+      Pick<ModuleProps, 'name' | 'description' | 'icon' | 'sortOrder'>
+    >,
+  ): Module {
     if (props.name !== undefined) {
       Module.validateName(props.name);
       this._name = props.name;

@@ -865,7 +865,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-047: Criar Use Cases de OrganizationModule
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - **ActivateModuleForOrganizationUseCase**
     - Valida se módulo existe e está ativo globalmente
