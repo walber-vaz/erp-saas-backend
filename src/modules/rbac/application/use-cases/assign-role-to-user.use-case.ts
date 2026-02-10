@@ -12,11 +12,11 @@ import { RoleErrorMessages } from '@modules/rbac/domain/constants/error-messages
 @Injectable()
 export class AssignRoleToUserUseCase {
   constructor(
-    @Inject('UserRoleRepository')
+    @Inject(UserRoleRepository)
     private readonly userRoleRepository: UserRoleRepository,
-    @Inject('UserRepository')
+    @Inject(UserRepository)
     private readonly userRepository: UserRepository,
-    @Inject('RoleRepository')
+    @Inject(RoleRepository)
     private readonly roleRepository: RoleRepository,
   ) {}
 

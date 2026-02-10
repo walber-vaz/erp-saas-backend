@@ -7,7 +7,7 @@ import { PermissionErrorMessages } from '@modules/rbac/domain/constants/error-me
 @Injectable()
 export class FindPermissionUseCase {
   constructor(
-    @Inject('PermissionRepository')
+    @Inject(PermissionRepository)
     private readonly permissionRepository: PermissionRepository,
   ) {}
 

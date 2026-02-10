@@ -5,7 +5,7 @@ import { UserRoleRepository } from '@modules/rbac/domain/repositories/user-role.
 @Injectable()
 export class ListUserRolesUseCase {
   constructor(
-    @Inject('UserRoleRepository')
+    @Inject(UserRoleRepository)
     private readonly userRoleRepository: UserRoleRepository,
   ) {}
 

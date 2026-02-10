@@ -755,7 +755,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-040: Criar testes unitários restantes do módulo RBAC
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Testar use cases de Permission (TASK-031) e Role (TASK-032) com repositórios mockados:
     - CreatePermissionUseCase, FindPermissionUseCase, ListPermissionsUseCase, DeletePermissionUseCase
@@ -768,7 +768,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-041: Criar testes e2e do módulo RBAC
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Criar testes e2e para endpoints de Permission, Role, UserRole
   - Fluxo completo:

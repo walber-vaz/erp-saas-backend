@@ -13,11 +13,11 @@ import { PermissionRepository } from '@modules/rbac/domain/repositories/permissi
 @Injectable()
 export class AssignPermissionToRoleUseCase {
   constructor(
-    @Inject('RolePermissionRepository')
+    @Inject(RolePermissionRepository)
     private readonly rolePermissionRepository: RolePermissionRepository,
-    @Inject('RoleRepository')
+    @Inject(RoleRepository)
     private readonly roleRepository: RoleRepository,
-    @Inject('PermissionRepository')
+    @Inject(PermissionRepository)
     private readonly permissionRepository: PermissionRepository,
   ) {}
 

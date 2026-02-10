@@ -19,14 +19,14 @@ export class PermissionFacade {
   }
 
   async findById(id: string) {
-    return this.findPermissionUseCase.execute({ id });
+    return this.findPermissionUseCase.execute(id);
   }
 
   async list(filters: { moduleId?: string }) {
-    return this.listPermissionsUseCase.execute(filters);
+    return this.listPermissionsUseCase.execute(filters.moduleId);
   }
 
   async delete(id: string) {
-    await this.deletePermissionUseCase.execute({ id });
+    await this.deletePermissionUseCase.execute(id);
   }
 }

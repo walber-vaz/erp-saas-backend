@@ -35,6 +35,8 @@ import { PrismaRoleInheritanceRepository } from './infra/repositories/prisma-rol
 import { PrismaRolePermissionRepository } from './infra/repositories/prisma-role-permission.repository';
 import { PrismaRoleRepository } from './infra/repositories/prisma-role.repository';
 import { PrismaUserRoleRepository } from './infra/repositories/prisma-user-role.repository';
+import { ModuleRepository } from '@modules/module-management/domain/repositories/module.repository';
+import { PrismaModuleRepository } from '@modules/module-management/infra/repositories/prisma-module.repository';
 
 const useCases = [
   AssignPermissionToRoleUseCase,
@@ -79,6 +81,10 @@ const repositories = [
   {
     provide: RoleInheritanceRepository,
     useClass: PrismaRoleInheritanceRepository,
+  },
+  {
+    provide: ModuleRepository,
+    useClass: PrismaModuleRepository,
   },
 ];
 

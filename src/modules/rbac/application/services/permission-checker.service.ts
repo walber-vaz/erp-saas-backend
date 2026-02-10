@@ -4,22 +4,20 @@ import { RoleRepository } from '@modules/rbac/domain/repositories/role.repositor
 import { RolePermissionRepository } from '@modules/rbac/domain/repositories/role-permission.repository';
 import { PermissionRepository } from '@modules/rbac/domain/repositories/permission.repository';
 import { Permission } from '@modules/rbac/domain/entities/permission.entity';
-import { UserRole } from '@modules/rbac/domain/entities/user-role.entity';
 import { RoleInheritanceRepository } from '@modules/rbac/domain/repositories/role-inheritance.repository';
-import { Role } from '@modules/rbac/domain/entities/role.entity';
 
 @Injectable()
 export class PermissionCheckerService {
   constructor(
-    @Inject('UserRoleRepository')
+    @Inject(UserRoleRepository)
     private readonly userRoleRepository: UserRoleRepository,
-    @Inject('RoleRepository')
+    @Inject(RoleRepository)
     private readonly roleRepository: RoleRepository,
-    @Inject('RolePermissionRepository')
+    @Inject(RolePermissionRepository)
     private readonly rolePermissionRepository: RolePermissionRepository,
-    @Inject('PermissionRepository')
+    @Inject(PermissionRepository)
     private readonly permissionRepository: PermissionRepository,
-    @Inject('RoleInheritanceRepository')
+    @Inject(RoleInheritanceRepository)
     private readonly roleInheritanceRepository: RoleInheritanceRepository,
   ) {}
 
@@ -66,7 +64,6 @@ export class PermissionCheckerService {
       }
     }
 
-    // Return unique permissions
     const uniquePermissions = Array.from(
       new Map(allPermissions.map((item) => [item.id, item])).values(),
     );
@@ -91,7 +88,6 @@ export class PermissionCheckerService {
         }
       }
     }
-    // Remove the initial roleId from the result, as it's not "inherited" by itself
     inheritedRoleIds.delete(roleId);
     return Array.from(inheritedRoleIds);
   }

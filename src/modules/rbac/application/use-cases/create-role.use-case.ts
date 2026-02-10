@@ -8,7 +8,7 @@ import { RoleErrorMessages } from '@modules/rbac/domain/constants/error-messages
 @Injectable()
 export class CreateRoleUseCase {
   constructor(
-    @Inject('RoleRepository')
+    @Inject(RoleRepository)
     private readonly roleRepository: RoleRepository,
   ) {}
 

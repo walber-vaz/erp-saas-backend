@@ -9,9 +9,9 @@ import { RoleInheritanceErrorMessages } from '@modules/rbac/domain/constants/err
 @Injectable()
 export class CreateRoleInheritanceUseCase {
   constructor(
-    @Inject('RoleInheritanceRepository')
+    @Inject(RoleInheritanceRepository)
     private readonly roleInheritanceRepository: RoleInheritanceRepository,
-    @Inject('RoleRepository')
+    @Inject(RoleRepository)
     private readonly roleRepository: RoleRepository,
   ) {}
 

@@ -29,19 +29,19 @@ export class RoleFacade {
   }
 
   async findById(id: string) {
-    return this.findRoleUseCase.execute({ id });
+    return this.findRoleUseCase.execute(id);
   }
 
   async list(filters: { organizationId?: string }) {
-    return this.listRolesUseCase.execute(filters);
+    return this.listRolesUseCase.execute(filters.organizationId ?? null);
   }
 
   async update(id: string, updateRoleDto: UpdateRoleDto) {
-    return this.updateRoleUseCase.execute({ id, ...updateRoleDto });
+    return this.updateRoleUseCase.execute(id, updateRoleDto);
   }
 
   async delete(id: string) {
-    await this.deleteRoleUseCase.execute({ id });
+    await this.deleteRoleUseCase.execute(id);
   }
 
   async assignPermission(
@@ -49,19 +49,16 @@ export class RoleFacade {
     assignRolePermissionDto: AssignRolePermissionDto,
   ) {
     return this.assignPermissionToRoleUseCase.execute({
-      roleId,
       ...assignRolePermissionDto,
+      roleId,
     });
   }
 
   async removePermission(roleId: string, permissionId: string) {
-    await this.removePermissionFromRoleUseCase.execute({
-      roleId,
-      permissionId,
-    });
+    await this.removePermissionFromRoleUseCase.execute(roleId, permissionId);
   }
 
   async listPermissions(roleId: string) {
-    return this.listRolePermissionsUseCase.execute({ roleId });
+    return this.listRolePermissionsUseCase.execute(roleId);
   }
 }

@@ -8,7 +8,6 @@ import {
   Param,
   Patch,
   Post,
-  Query,
 } from '@nestjs/common';
 import { AssignRolePermissionDto } from '../application/dtos/assign-role-permission.dto';
 import { CreateRoleDto } from '../application/dtos/create-role.dto';
@@ -16,7 +15,7 @@ import { UpdateRoleDto } from '../application/dtos/update-role.dto';
 import { RoleFacade } from '../application/facades/role.facade';
 import { RequirePermission } from './decorators/require-permission.decorator';
 import { CurrentUser } from '@modules/auth/presentation/decorators/current-user.decorator';
-import { TokenPayload } from '@modules/auth/domain/interfaces/token-payload.interface';
+import type { AuthenticatedUser } from '@modules/auth/infra/strategies/jwt.strategy';
 
 @Controller('roles')
 export class RoleController {
@@ -25,7 +24,7 @@ export class RoleController {
   @Post()
   @RequirePermission('RBAC_ROLE_CREATE')
   async create(
-    @CurrentUser() user: TokenPayload,
+    @CurrentUser() user: AuthenticatedUser,
     @Body() createRoleDto: CreateRoleDto,
   ) {
     if (!createRoleDto.organizationId) {
@@ -36,7 +35,7 @@ export class RoleController {
 
   @Get()
   @RequirePermission('RBAC_ROLE_READ')
-  async findAll(@CurrentUser() user: TokenPayload) {
+  async findAll(@CurrentUser() user: AuthenticatedUser) {
     return this.roles.list({ organizationId: user.organizationId });
   }
 

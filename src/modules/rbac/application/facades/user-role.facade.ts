@@ -17,10 +17,10 @@ export class UserRoleFacade {
   }
 
   async removeRole(userId: string, roleId: string) {
-    await this.removeRoleFromUserUseCase.execute({ userId, roleId });
+    await this.removeRoleFromUserUseCase.execute(userId, roleId);
   }
 
   async listUserRoles(userId: string) {
-    return this.listUserRolesUseCase.execute({ userId });
+    return this.listUserRolesUseCase.execute(userId);
   }
 }
