@@ -6,6 +6,11 @@ import { PermissionRepository } from '@modules/rbac/domain/repositories/permissi
 import { Permission } from '@modules/rbac/domain/entities/permission.entity';
 import { RoleInheritanceRepository } from '@modules/rbac/domain/repositories/role-inheritance.repository';
 
+export type EffectivePermission = {
+  permission: Permission;
+  conditions: Record<string, any> | null;
+};
+
 @Injectable()
 export class PermissionCheckerService {
   constructor(
@@ -26,16 +31,20 @@ export class PermissionCheckerService {
     permissionCode: string,
     context?: any,
   ): Promise<boolean> {
-    const userPermissions = await this.getUserPermissions(userId);
-    const hasPermission = userPermissions.some(
-      (permission) => permission.code === permissionCode,
-    );
+    const userEffectivePermissions = await this.getUserPermissions(userId);
 
-    // TODO: Implement condition evaluation
-    return hasPermission;
+    for (const effectivePermission of userEffectivePermissions) {
+      if (effectivePermission.permission.code === permissionCode) {
+        if (this.evaluateCondition(effectivePermission.conditions, context)) {
+          return true;
+        }
+      }
+    }
+
+    return false;
   }
 
-  async getUserPermissions(userId: string): Promise<Permission[]> {
+  async getUserPermissions(userId: string): Promise<EffectivePermission[]> {
     const userRoles = await this.userRoleRepository.findByUserId(userId);
     const activeUserRoles = userRoles.filter(
       (userRole) => !userRole.isExpired(),
@@ -50,7 +59,7 @@ export class PermissionCheckerService {
       inheritedRoleIds.forEach((id) => effectiveRoleIds.add(id));
     }
 
-    const allPermissions: Permission[] = [];
+    const allEffectivePermissions: EffectivePermission[] = [];
     for (const roleId of Array.from(effectiveRoleIds)) {
       const rolePermissions =
         await this.rolePermissionRepository.findByRoleId(roleId);
@@ -59,16 +68,28 @@ export class PermissionCheckerService {
           rolePermission.permissionId,
         );
         if (permission) {
-          allPermissions.push(permission);
+          allEffectivePermissions.push({
+            permission,
+            conditions: rolePermission.conditions,
+          });
         }
       }
     }
 
-    const uniquePermissions = Array.from(
-      new Map(allPermissions.map((item) => [item.id, item])).values(),
+    const uniqueEffectivePermissionsMap = new Map<
+      string,
+      EffectivePermission
+    >();
+    for (const item of allEffectivePermissions) {
+      if (!uniqueEffectivePermissionsMap.has(item.permission.id)) {
+        uniqueEffectivePermissionsMap.set(item.permission.id, item);
+      }
+    }
+    const uniqueEffectivePermissions = Array.from(
+      uniqueEffectivePermissionsMap.values(),
     );
 
-    return uniquePermissions;
+    return uniqueEffectivePermissions;
   }
 
   async resolveRoleInheritance(roleId: string): Promise<string[]> {
@@ -90,5 +111,34 @@ export class PermissionCheckerService {
     }
     inheritedRoleIds.delete(roleId);
     return Array.from(inheritedRoleIds);
+  }
+
+  private evaluateCondition(
+    conditions: Record<string, any> | null,
+    context: Record<string, any> | null,
+  ): boolean {
+    if (!conditions) {
+      return true;
+    }
+
+    if (!context) {
+      return false;
+    }
+
+    for (const key in conditions) {
+      if (
+        Object.prototype.hasOwnProperty.call(conditions, key) &&
+        Object.prototype.hasOwnProperty.call(context, key)
+      ) {
+        if (conditions[key] !== context[key]) {
+          return false;
+        }
+      } else {
+        // If a condition exists for a key not present in context, it fails
+        return false;
+      }
+    }
+
+    return true; // All conditions met
   }
 }

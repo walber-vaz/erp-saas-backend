@@ -119,11 +119,10 @@ describe('PermissionCheckerService', () => {
     });
 
     it('deve retornar ancestrais recursivamente (A→B→C)', async () => {
-      // C herda de B, B herda de A
       mockRoleInheritanceRepository.findByChildId
-        .mockResolvedValueOnce([makeInheritance(ROLE_B, ROLE_C)]) // C's parent is B
-        .mockResolvedValueOnce([makeInheritance(ROLE_A, ROLE_B)]) // B's parent is A
-        .mockResolvedValueOnce([]); // A has no parents
+        .mockResolvedValueOnce([makeInheritance(ROLE_B, ROLE_C)])
+        .mockResolvedValueOnce([makeInheritance(ROLE_A, ROLE_B)])
+        .mockResolvedValueOnce([]);
 
       const result = await service.resolveRoleInheritance(ROLE_C);
 
@@ -133,22 +132,20 @@ describe('PermissionCheckerService', () => {
     });
 
     it('deve lidar com herança diamante sem duplicatas', async () => {
-      // D herda de B e C; B herda de A; C herda de A
       mockRoleInheritanceRepository.findByChildId
         .mockResolvedValueOnce([
           makeInheritance(ROLE_B, ROLE_D),
           makeInheritance(ROLE_C, ROLE_D),
-        ]) // D's parents: B, C
-        .mockResolvedValueOnce([makeInheritance(ROLE_A, ROLE_B)]) // B's parent: A
-        .mockResolvedValueOnce([makeInheritance(ROLE_A, ROLE_C)]) // C's parent: A
-        .mockResolvedValue([]); // A has no parents
+        ])
+        .mockResolvedValueOnce([makeInheritance(ROLE_A, ROLE_B)])
+        .mockResolvedValueOnce([makeInheritance(ROLE_A, ROLE_C)])
+        .mockResolvedValue([]);
 
       const result = await service.resolveRoleInheritance(ROLE_D);
 
       expect(result).toContain(ROLE_B);
       expect(result).toContain(ROLE_C);
       expect(result).toContain(ROLE_A);
-      // No duplicates
       const unique = new Set(result);
       expect(unique.size).toBe(result.length);
     });
@@ -168,7 +165,7 @@ describe('PermissionCheckerService', () => {
       const result = await service.getUserPermissions(USER_ID);
 
       expect(result).toHaveLength(1);
-      expect(result[0].code).toBe('FINANCE_INVOICE_CREATE');
+      expect(result[0].permission.code).toBe('FINANCE_INVOICE_CREATE');
     });
 
     it('deve filtrar roles expirados do usuário', async () => {
@@ -190,7 +187,6 @@ describe('PermissionCheckerService', () => {
       const result = await service.getUserPermissions(USER_ID);
 
       expect(result).toHaveLength(1);
-      // Should only call findByRoleId for the active role
       expect(mockRolePermissionRepository.findByRoleId).toHaveBeenCalledTimes(
         1,
       );
@@ -202,11 +198,9 @@ describe('PermissionCheckerService', () => {
       const permInherited = makePermission(PERM_ID_2, 'FINANCE_INVOICE_READ');
 
       mockUserRoleRepository.findByUserId.mockResolvedValue([userRole]);
-      // B herda de A
       mockRoleInheritanceRepository.findByChildId
         .mockResolvedValueOnce([makeInheritance(ROLE_A, ROLE_B)])
         .mockResolvedValue([]);
-      // B has perm 1, A has perm 2
       mockRolePermissionRepository.findByRoleId
         .mockResolvedValueOnce([makeRolePermission(ROLE_B, PERM_ID_1)])
         .mockResolvedValueOnce([makeRolePermission(ROLE_A, PERM_ID_2)]);
@@ -217,7 +211,7 @@ describe('PermissionCheckerService', () => {
       const result = await service.getUserPermissions(USER_ID);
 
       expect(result).toHaveLength(2);
-      const codes = result.map((p) => p.code);
+      const codes = result.map((p) => p.permission.code);
       expect(codes).toContain('FINANCE_INVOICE_CREATE');
       expect(codes).toContain('FINANCE_INVOICE_READ');
     });
@@ -232,7 +226,6 @@ describe('PermissionCheckerService', () => {
         userRoleB,
       ]);
       mockRoleInheritanceRepository.findByChildId.mockResolvedValue([]);
-      // Both roles have the same permission
       mockRolePermissionRepository.findByRoleId.mockResolvedValue([
         makeRolePermission(ROLE_A, PERM_ID_1),
       ]);
@@ -241,6 +234,7 @@ describe('PermissionCheckerService', () => {
       const result = await service.getUserPermissions(USER_ID);
 
       expect(result).toHaveLength(1);
+      expect(result[0].permission.code).toBe('FINANCE_INVOICE_CREATE');
     });
 
     it('deve retornar array vazio quando usuário não tem roles', async () => {
@@ -296,11 +290,9 @@ describe('PermissionCheckerService', () => {
       const permission = makePermission(PERM_ID_1, 'FINANCE_INVOICE_CREATE');
 
       mockUserRoleRepository.findByUserId.mockResolvedValue([userRole]);
-      // B herda de A
       mockRoleInheritanceRepository.findByChildId
         .mockResolvedValueOnce([makeInheritance(ROLE_A, ROLE_B)])
         .mockResolvedValue([]);
-      // B has no permissions, A has the permission
       mockRolePermissionRepository.findByRoleId
         .mockResolvedValueOnce([])
         .mockResolvedValueOnce([makeRolePermission(ROLE_A, PERM_ID_1)]);
