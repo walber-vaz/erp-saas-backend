@@ -888,7 +888,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-048: Criar implementações Prisma dos repositórios
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Criar `src/modules/module-management/infra/repositories/prisma-module.repository.ts`
     - Implementa `ModuleRepository` usando `PrismaService`
@@ -899,7 +899,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-049: Criar controllers Module Management
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Criar `src/modules/module-management/presentation/module.controller.ts`
     - `POST   /modules`                  → CreateModuleUseCase
@@ -917,7 +917,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-050: Criar módulo NestJS Module Management
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Criar `src/modules/module-management/module-management.module.ts`
   - Registrar providers:
