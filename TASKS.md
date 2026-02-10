@@ -649,7 +649,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-034: Criar serviço de autorização (PermissionChecker)
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Criar `src/modules/rbac/application/services/permission-checker.service.ts`
   - Métodos:
@@ -668,7 +668,8 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-035: Criar Guard e Decorator de autorização
 
-- **Status:** pendente
+- **Status:** concluída
+- **Nota:** Registro global do `PermissionGuard` (via `APP_GUARD`) adiado para TASK-038 (criação do `RbacModule`), pois o guard depende do `PermissionCheckerService` via DI.
 - **Descrição:**
   - Criar `src/modules/rbac/presentation/guards/permission.guard.ts`
     - Guard que verifica se usuário tem permissão
