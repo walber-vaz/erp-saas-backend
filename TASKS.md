@@ -738,7 +738,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-039: Criar seed de permissões e roles de sistema
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Criar `prisma/seeds/rbac.seed.ts`
   - Seed de roles de sistema:
