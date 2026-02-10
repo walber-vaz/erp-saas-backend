@@ -699,7 +699,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-037: Criar controllers RBAC
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Criar `src/modules/rbac/presentation/permission.controller.ts`
     - `POST   /permissions`            → CreatePermissionUseCase
