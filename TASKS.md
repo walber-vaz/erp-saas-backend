@@ -956,7 +956,7 @@ TASK-009 (testes unitários) → TASK-010 (testes e2e)
 
 ### TASK-053: Criar testes unitários de entidades do módulo Module Management
 
-- **Status:** pendente
+- **Status:** concluída
 - **Descrição:**
   - Testar entidades `Module` e `OrganizationModule` (validações, métodos)
   - **Nota:** testes de use cases são incluídos nas respectivas tasks (TASK-046, TASK-047)
